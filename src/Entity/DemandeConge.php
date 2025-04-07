@@ -1,13 +1,10 @@
 <?php
-
 namespace App\Entity;
 
-use Doctrine\DBAL\Types\Types;
-use Doctrine\ORM\Mapping as ORM;
+use App\Repository\DemandeCongeRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-
-use App\Repository\DemandeCongeRepository;
+use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: DemandeCongeRepository::class)]
 #[ORM\Table(name: 'demande_conge')]
@@ -44,7 +41,7 @@ class DemandeConge
         return $this;
     }
 
-    #[ORM\Column(type: 'string', nullable: false)]
+    #[ORM\Column(name: 'typeConge', type: 'string', nullable: false)]
     private ?string $typeConge = null;
 
     public function getTypeConge(): ?string
@@ -58,7 +55,7 @@ class DemandeConge
         return $this;
     }
 
-    #[ORM\Column(type: 'date', nullable: false)]
+    #[ORM\Column(name: 'dateDebut', type: 'date', nullable: false)]
     private ?\DateTimeInterface $dateDebut = null;
 
     public function getDateDebut(): ?\DateTimeInterface
@@ -66,13 +63,13 @@ class DemandeConge
         return $this->dateDebut;
     }
 
-    public function setDateDebut(\DateTimeInterface $dateDebut): self
+    public function setDateDebut(\DateTimeInterface $dateDebut) : self
     {
         $this->dateDebut = $dateDebut;
         return $this;
     }
 
-    #[ORM\Column(type: 'date', nullable: false)]
+    #[ORM\Column(name: 'dateFin', type: 'date', nullable: false)]
     private ?\DateTimeInterface $dateFin = null;
 
     public function getDateFin(): ?\DateTimeInterface
@@ -80,7 +77,7 @@ class DemandeConge
         return $this->dateFin;
     }
 
-    public function setDateFin(\DateTimeInterface $dateFin): self
+    public function setDateFin(\DateTimeInterface $dateFin) : self
     {
         $this->dateFin = $dateFin;
         return $this;
@@ -113,7 +110,7 @@ class DemandeConge
      */
     public function getValiderConges(): Collection
     {
-        if (!$this->validerConges instanceof Collection) {
+        if (! $this->validerConges instanceof Collection) {
             $this->validerConges = new ArrayCollection();
         }
         return $this->validerConges;
@@ -121,7 +118,7 @@ class DemandeConge
 
     public function addValiderConge(ValiderConge $validerConge): self
     {
-        if (!$this->getValiderConges()->contains($validerConge)) {
+        if (! $this->getValiderConges()->contains($validerConge)) {
             $this->getValiderConges()->add($validerConge);
         }
         return $this;
