@@ -70,9 +70,9 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
      * @return bool|void
      */
     public function supports(Request $request): bool
-    {
-        return self::LOGIN_ROUTE === $request->attributes->get('_route') && $request->isMethod('POST');
-    }
+{
+    return $request->isMethod('POST') && $request->getPathInfo() === '/login';
+}
 
 
     /**
@@ -135,7 +135,7 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
      * @param string $providerKey
      * @return Response|void|null
      */
-    public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response # FOURTH
+    public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): Response # FOURTH
     {
         // 1. Try to redirect the user to their original intended path
         if ($targetPath = $this->getTargetPath($request->getSession(), $firewallName)) {
