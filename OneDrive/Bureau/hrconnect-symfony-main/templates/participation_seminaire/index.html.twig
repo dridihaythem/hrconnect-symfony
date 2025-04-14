@@ -1,0 +1,142 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des Participations{% endblock %}
+
+{% block body %}
+    <div class="container my-5">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="fw-bold">🎓 Participations aux Séminaires</h2>
+            <a href="{{ path('app_participation_seminaire_new') }}" class="btn btn-gradient">➕ Nouvelle Participation</a>
+        </div>
+
+        {% if participation_seminaires|length > 0 %}
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped align-middle shadow-sm rounded overflow-hidden">
+                    <thead class="table-light text-center">
+                    <tr>
+                        <th>num</th>
+                        <th>Statut</th>
+                        <th>Date d'inscription</th>
+                        <th>Évaluation</th>
+                        <th>Certificat</th>
+                        <th>ID Employé</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for p in participation_seminaires %}
+                        <tr class="text-center">
+                            <td><strong>#{{ p.id }}</strong></td>
+                            <td>
+                                {% set statusStyles = {
+                                    'présent': {'color': 'success', 'icon': '✔️'},
+                                    'absent': {'color': 'danger', 'icon': '❌'},
+                                    'Inscrit': {'color': 'info', 'icon': '📝'},
+                                    'en attente': {'color': 'secondary', 'icon': '⏳'}
+                                } %}
+
+                                {% set status = statusStyles[p.statut] ?? { 'color': 'dark', 'icon': '❓' } %}
+
+                                <span class="badge-outline badge-outline-{{ status.color }}">
+        <span class="me-1">{{ status.icon }}</span>{{ p.statut|capitalize }}
+    </span>
+                            </td>
+
+                            <td>{{ p.dateInscription ? p.dateInscription|date('d/m/Y') : '—' }}</td>
+                            <td>{{ p.evaluation|default('—') }}</td>
+                            <td>{{ p.certificat|default('—') }}</td>
+                            <td><span class="fw-semibold text-primary">#{{ p.idEmploye }}</span></td>
+                            <td>
+                                <div class="d-flex justify-content-center gap-2">
+                                    <a href="{{ path('app_participation_seminaire_show', {'id': p.id}) }}" class="btn btn-sm btn-outline-primary rounded-pill px-3">👁 Voir</a>
+                                    <a href="{{ path('app_participation_seminaire_edit', {'id': p.id}) }}" class="btn btn-sm btn-outline-secondary rounded-pill px-3">✏️ Modifier</a>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <div class="alert alert-info text-center mt-5">
+                Aucune participation trouvée.
+            </div>
+        {% endif %}
+    </div>
+
+    <style>
+        .btn-gradient {
+            background: linear-gradient(135deg, #007bff, #00c6ff);
+            color: white;
+            padding: 0.5rem 1.25rem;
+            border: none;
+            border-radius: 25px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 123, 255, 0.2);
+        }
+
+        .btn-gradient:hover {
+            background: linear-gradient(135deg, #0056b3, #009ec3);
+            box-shadow: 0 6px 16px rgba(0, 123, 255, 0.35);
+            text-decoration: none;
+            color: white;
+        }
+
+        .table th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+        }
+
+        .badge {
+            font-size: 0.9rem;
+        }
+
+        .table td {
+            vertical-align: middle;
+        }
+
+        .table-bordered {
+            border-radius: 0.75rem;
+            overflow: hidden;
+        }.badge-outline {
+             display: inline-flex;
+             align-items: center;
+             padding: 0.4rem 1rem;
+             border-radius: 30px;
+             font-size: 0.85rem;
+             font-weight: 500;
+             border: 2px solid;
+             background-color: transparent;
+             white-space: nowrap;
+         }
+
+        .badge-outline-success {
+            color: #198754;
+            border-color: #198754;
+        }
+
+        .badge-outline-danger {
+            color: #dc3545;
+            border-color: #dc3545;
+        }
+
+        .badge-outline-info {
+            color: #0dcaf0;
+            border-color: #0dcaf0;
+        }
+
+        .badge-outline-secondary {
+            color: #6c757d;
+            border-color: #6c757d;
+        }
+
+        .badge-outline-dark {
+            color: #343a40;
+            border-color: #343a40;
+        }
+
+    </style>
+{% endblock %}
