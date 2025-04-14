@@ -1,0 +1,41 @@
+{# templates/user/profile_front.html.twig #}
+{% extends 'base2.html.twig' %}
+
+{% block title %}My Profile{% endblock %}
+
+{% block body %}
+<div class="container my-5">
+<br><br><br>
+
+    <div class="card shadow-lg rounded-lg p-5 mx-auto" style="max-width: 800px;">
+        
+        <div class="text-center mb-4">
+            <img src="{{ asset('images/profile.png') }}" alt="Profile Image" width="120" class="rounded-circle mb-3 shadow" style="border: 3px solid #007bff;">
+            <h3 class="fw-bold">{{ app.user.nom }} {{ app.user.prenom }}</h3>
+            <p class="text-muted mb-0">{{ app.user.email }}</p>
+        </div>
+
+        <hr class="my-4">
+
+        {# Flash messages #}
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endfor %}
+        {% for message in app.flashes('error') %}
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endfor %}
+
+        {# Profile Edit Form #}
+        <div class="mt-4">
+            {{ include('user/_form.html.twig', {'button_label': 'Update'}) }}
+        </div>
+
+    </div>
+</div>
+{% endblock %}

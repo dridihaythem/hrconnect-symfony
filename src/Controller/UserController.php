@@ -131,4 +131,38 @@ final class UserController extends AbstractController
 
         return $this->redirectToRoute('app_user_index');
     }
+
+    #[Route('/home', name: 'app_home', methods: ['GET'])]
+    public function home(): Response
+    {
+        return $this->render('home.html.twig');
+    }
+
+    #[Route('/profile', name: 'app_user_profile_front', methods: ['GET', 'POST'])]
+    public function profileFront(Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher): Response
+    {
+        $user = $this->getUser();
+
+        if (!$user) {
+            throw $this->createAccessDeniedException('You must be logged in to access your profile.');
+        }
+
+        $form = $this->createForm(UserType::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $hashedPassword = $passwordHasher->hashPassword($user, $user->getPassword());
+            $user->setPassword($hashedPassword);
+
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Profile updated successfully!');
+
+            return $this->redirectToRoute('app_user_profile_front');
+        }
+
+        return $this->render('user/profile_front.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
 }
