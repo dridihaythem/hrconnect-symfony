@@ -1,0 +1,90 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des Séminaires{% endblock %}
+
+{% block body %}
+    <div class="container my-5">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="fw-bold">Séminaires</h2>
+            <a href="{{ path('app_seminaire_new') }}" class="btn btn-gradient">➕ Nouveau Séminaire</a>
+        </div>
+
+        {% if seminaires|length > 0 %}
+            <div class="row gy-5 gx-5"> {# Increased gutter size to gy-5 and gx-5 for more spacing #}
+                {% for seminaire in seminaires %}
+                    <div class="col-md-6 col-lg-4">
+                        <div class="card h-100 seminar-card px-3 py-3">
+                            <div class="card-body">
+                                <h5 class="card-title text-primary">{{ seminaire.nomSeminaire }}</h5>
+                                <p class="card-text">
+                                    <strong>Description:</strong> {{ seminaire.description|default('Aucune')|length > 80 ? seminaire.description[:80] ~ '...' : seminaire.description }}<br>
+                                    <strong>📍 Lieu:</strong> {{ seminaire.lieu }}<br>
+                                    <strong>🧑‍🏫 Formateur:</strong> {{ seminaire.formateur }}<br>
+                                    <strong>📅 Dates:</strong> {{ seminaire.dateDebut|date('d/m/Y') }} → {{ seminaire.dateFin|date('d/m/Y') }}<br>
+                                    <strong>💰 Coût:</strong> {{ seminaire.cout }} DT<br>
+                                    <strong>📚 Type:</strong> {{ seminaire.type|capitalize }}
+                                </p>
+                            </div>
+                            <div class="card-footer bg-transparent border-0 d-flex justify-content-between">
+                                <a href="{{ path('app_seminaire_show', {'id': seminaire.id}) }}" class="btn btn-outline-primary btn-sm rounded-pill px-3">👁 Voir</a>
+                                <a href="{{ path('app_seminaire_edit', {'id': seminaire.id}) }}" class="btn btn-outline-secondary btn-sm rounded-pill px-3">✏️ Modifier</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="alert alert-warning text-center mt-5">
+                Aucun séminaire trouvé.
+            </div>
+        {% endif %}
+    </div>
+
+    <style>
+        .seminar-card {
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+            border-radius: 1rem;
+            background: #fff;
+            border: 1px solid #f0f0f0;
+            padding: 1.2rem;
+            height: 100%; /* 🧱 pour que toutes les cartes soient équilibrées */
+        }
+
+        .seminar-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .card-text strong {
+            display: inline-block;
+            width: 120px;
+            font-weight: 500;
+        }
+
+        .btn-gradient {
+            background: linear-gradient(135deg, #007bff, #00c6ff);
+            color: white;
+            padding: 0.5rem 1.25rem;
+            border: none;
+            border-radius: 25px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 123, 255, 0.2);
+        }
+        .row {
+            --bs-gutter-x: 4rem; /* Custom horizontal gutter */
+            --bs-gutter-y: 4rem; /* Custom vertical gutter */
+        }
+        .btn-gradient:hover {
+            background: linear-gradient(135deg, #0056b3, #009ec3);
+            box-shadow: 0 6px 16px rgba(0, 123, 255, 0.35);
+            text-decoration: none;
+            color: white;
+        }
+    </style>
+{% endblock %}

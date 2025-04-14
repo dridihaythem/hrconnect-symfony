@@ -2,39 +2,39 @@
 
 namespace App\Repository;
 
-use App\Entity\Candidature;
+use App\Entity\Seminaire;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Candidature>
+ * @extends ServiceEntityRepository<Seminaire>
  */
-class CandidatureRepository extends ServiceEntityRepository
+class SeminaireRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Candidature::class);
+        parent::__construct($registry, Seminaire::class);
     }
 
     //    /**
-    //     * @return Candidature[] Returns an array of Candidature objects
+    //     * @return Seminaire[] Returns an array of Seminaire objects
     //     */
     //    public function findByExampleField($value): array
     //    {
-    //        return $this->createQueryBuilder('c')
-    //            ->andWhere('c.exampleField = :val')
+    //        return $this->createQueryBuilder('s')
+    //            ->andWhere('s.exampleField = :val')
     //            ->setParameter('val', $value)
-    //            ->orderBy('c.id', 'ASC')
+    //            ->orderBy('s.id', 'ASC')
     //            ->setMaxResults(10)
     //            ->getQuery()
     //            ->getResult()
     //        ;
     //    }
 
-    //    public function findOneBySomeField($value): ?Candidature
+    //    public function findOneBySomeField($value): ?Seminaire
     //    {
-    //        return $this->createQueryBuilder('c')
-    //            ->andWhere('c.exampleField = :val')
+    //        return $this->createQueryBuilder('s')
+    //            ->andWhere('s.exampleField = :val')
     //            ->setParameter('val', $value)
     //            ->getQuery()
     //            ->getOneOrNullResult()

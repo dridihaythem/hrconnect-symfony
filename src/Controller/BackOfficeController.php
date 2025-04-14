@@ -8,7 +8,6 @@ use Symfony\Component\Routing\Attribute\Route;
 final class BackOfficeController extends AbstractController
 {
     #[Route('/back-office', name: 'app_back_office')]
-    #[Route('/back-office', name: 'back.index')]
     public function index(): Response
     {
         return $this->render('back_office/index.html.twig', [
