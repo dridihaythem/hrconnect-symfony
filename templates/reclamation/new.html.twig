@@ -8,11 +8,11 @@
         <ul class="breadcrumb">
             <li class="breadcrumb-item">
                 <a href="{{ path('app_back_office') }}">
-                    <img src="{{ asset('assets/img/dash.png')}}" class="mr-2" alt="breadcrumb"/> Home
+                    <img src="{{ asset('assets/img/dash.png') }}" class="mr-2" alt="breadcrumb"/> Home
                 </a>
             </li>
             <li class="breadcrumb-item">
-                <a href="{{ path('app_reclamation_index') }}">Reclamations</a>
+                <a href="{{ path('app_reclamation_index') }}">Réclamations</a>
             </li>
             <li class="breadcrumb-item active">Nouvelle Réclamation</li>
         </ul>
@@ -24,31 +24,33 @@
             <div class="row">
                 <div class="col-md-6 mb-3">
                     {{ form_label(form.employeeName) }}
-                    {{ form_widget(form.employeeName) }}
+                    {{ form_widget(form.employeeName, {'attr': {'class': 'form-control'}}) }}
                     {{ form_errors(form.employeeName) }}
                 </div>
 
                 <div class="col-md-6 mb-3">
                     {{ form_label(form.type) }}
-                    {{ form_widget(form.type) }}
+                    {{ form_widget(form.type, {'attr': {'class': 'form-control'}}) }}
                     {{ form_errors(form.type) }}
                 </div>
 
                 <div class="col-md-12 mb-3">
                     {{ form_label(form.description) }}
-                    {{ form_widget(form.description) }}
+                    {{ form_widget(form.description, {'attr': {'class': 'form-control', 'rows': 5}}) }}
                     {{ form_errors(form.description) }}
                 </div>
 
                 <div class="col-md-6 mb-3">
                     {{ form_label(form.priority) }}
-                    {{ form_widget(form.priority) }}
+                    {{ form_widget(form.priority, {'attr': {'class': 'form-control'}}) }}
                     {{ form_errors(form.priority) }}
                 </div>
             </div>
 
-            <button type="submit" class="btn btn-primary">Envoyer</button>
-            <a href="{{ path('app_reclamation_index') }}" class="btn btn-secondary">Annuler</a>
+            <div class="d-flex justify-content-between">
+                <button type="submit" class="btn btn-primary">Envoyer</button>
+                <a href="{{ path('app_reclamation_index') }}" class="btn btn-secondary">Annuler</a>
+            </div>
         {{ form_end(form) }}
     </div>
 </div>

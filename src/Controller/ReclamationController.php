@@ -35,21 +35,26 @@ class ReclamationController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            // Set the submission date automatically when the form is valid
+            $reclamation->setDateOfSubmission(new \DateTime());
+
             $em->persist($reclamation);
             $em->flush();
 
-            $this->addFlash('success', 'Reclamation submitted successfully.');
+            $this->addFlash('success', 'Réclamation soumise avec succès.');
+
             return $this->redirectToRoute('app_reclamation_index');
         }
 
         return $this->render('reclamation/new.html.twig', [
-            'form' => $form,
+            'form' => $form->createView(),
         ]);
     }
 
     #[Route('/{id}', name: 'app_reclamation_show', methods: ['GET'])]
     public function show(Reclamation $reclamation, TicketReclamationRepository $ticketRepo): Response
     {
+        // Find the related ticket for the reclamation (if any)
         $ticket = $ticketRepo->findOneBy(['reclamation' => $reclamation]);
 
         return $this->render('reclamation/show.html.twig', [
@@ -57,6 +62,20 @@ class ReclamationController extends AbstractController
             'ticket' => $ticket,
         ]);
     }
+
+    #[Route('/resolved', name: 'app_reclamation_resolved')]
+public function resolved(ReclamationRepository $reclamationRepository): Response
+{
+    // Fetch all resolved reclamations
+    $resolvedReclamations = $reclamationRepository->findBy(['status' => 'resolved']);
+    
+    return $this->render('reclamation/resolved.html.twig', [
+        'reclamations' => $resolvedReclamations,
+    ]);
+}
+
+
+
 
     #[Route('/{id}/edit', name: 'app_reclamation_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Reclamation $reclamation, EntityManagerInterface $em): Response
@@ -89,4 +108,6 @@ class ReclamationController extends AbstractController
 
         return $this->redirectToRoute('app_reclamation_index');
     }
+    
+
 }

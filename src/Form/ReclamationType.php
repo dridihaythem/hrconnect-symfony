@@ -9,7 +9,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 
 class ReclamationType extends AbstractType
 {
@@ -18,7 +18,7 @@ class ReclamationType extends AbstractType
         $builder
             ->add('employeeName', TextType::class, [
                 'label' => 'Nom de l\'employé',
-                'attr' => ['class' => 'form-control']
+                'attr' => ['class' => 'form-control'],
             ])
             ->add('type', ChoiceType::class, [
                 'label' => 'Type de réclamation',
@@ -28,14 +28,16 @@ class ReclamationType extends AbstractType
                     'Conditions de travail' => 'Working Conditions',
                     'Autre' => 'Other',
                 ],
-                'attr' => ['class' => 'form-control']
+                'placeholder' => 'Sélectionnez un type',
+                'attr' => ['class' => 'form-control'],
             ])
             ->add('description', TextareaType::class, [
                 'label' => 'Description',
                 'attr' => [
                     'class' => 'form-control',
-                    'rows' => 5
-                ]
+                    'rows' => 5,
+                    'placeholder' => 'Décrivez brièvement la réclamation...'
+                ],
             ])
             ->add('priority', ChoiceType::class, [
                 'label' => 'Priorité',
@@ -44,12 +46,15 @@ class ReclamationType extends AbstractType
                     'Moyenne' => 'Medium',
                     'Élevée' => 'High',
                 ],
-                'attr' => ['class' => 'form-control']
+                'placeholder' => 'Choisissez une priorité',
+                'attr' => ['class' => 'form-control'],
             ])
-            ->add('dateOfSubmission', DateType::class, [
+            ->add('dateOfSubmission', DateTimeType::class, [
                 'label' => 'Date de soumission',
                 'widget' => 'single_text',
-                'attr' => ['class' => 'form-control']
+                'html5' => true,
+                'disabled' => true, // Disable the input since it's set automatically
+                'attr' => ['class' => 'form-control'],
             ]);
     }
 

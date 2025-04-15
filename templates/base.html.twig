@@ -67,10 +67,19 @@
 
 				<script>
 
-
-					{% for label, messages in app.flashes %}
-{% for message in messages %}
-Swal.fire({title: "{{ label }}", text: "{{ message }}", icon: "{{ label }}"});{% endfor %}{% endfor %}
+document.addEventListener("DOMContentLoaded", function () {
+		{% for label, messages in app.flashes %}
+			{% for message in messages %}
+				Swal.fire({
+					title: "{{ label == 'success' ? 'Succès' : (label == 'error' ? 'Erreur' : label|capitalize) }}",
+					text: "{{ message|e('js') }}",
+					icon: "{{ label }}",
+					confirmButtonColor: '#3085d6',
+					confirmButtonText: 'OK'
+				});
+			{% endfor %}
+		{% endfor %}
+	});
 				</script>
 
 			{% endblock %}
